@@ -4,12 +4,20 @@ require 'spec_helper'
 module GemsComparator
   describe GemInfo do
     describe '#compare_url' do
-      MESSAGE = "#<NoMethodError: undefined method `homepage' for nil:NilClass>"
       let(:gem_info) { GemInfo.new('gems_comparator', '0.1.0', '0.2.0') }
+      let(:url) { 'https://api.github.com/repos/sinsoku/gems_comparator/tags' }
+
+      before do
+        fixtures_path = File.join(__dir__, '../fixtures')
+        allow(Bundler).to receive(:specs_path) { fixtures_path }
+        stub_octokit(:get, '/repos/sinsoku/gems_comparator/tags')
+          .to_return(status: 404)
+      end
 
       context 'when an error occurs' do
         it do
-          expect(gem_info.compare_url).to eq MESSAGE
+          error_message = "#<Octokit::NotFound: GET #{url}: 404 - >"
+          expect(gem_info.compare_url).to eq error_message
         end
       end
     end

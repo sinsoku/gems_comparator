@@ -31,7 +31,7 @@ module GemsComparator
     end
 
     def homepage
-      spec.homepage
+      spec&.homepage
     end
 
     def to_h
