@@ -46,12 +46,15 @@ module GemsComparator
     end
 
     def spec
+      @spec ||= Gem::Specification.load(spec_path)
+    end
+
+    def spec_path
       spec_paths = [
         "#{Bundler.specs_path}/#{name}-#{before}.gemspec",
         "#{Bundler.specs_path}/#{name}-#{after}.gemspec"
       ]
-      spec_path = spec_paths.find { |path| File.exist?(path) }
-      Gem::Specification.load(spec_path)
+      spec_paths.find { |path| File.exist?(path) }
     end
   end
 end
