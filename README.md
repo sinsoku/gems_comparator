@@ -1,8 +1,6 @@
 # GemsComparator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/gems_comparator`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+GemsComparator generates GitHub's compare view urls from `Gemfile.lock`
 
 ## Installation
 
@@ -22,7 +20,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```rb
+require 'gems_comparator'
+
+before_lockfile = File.read('before_Gemfile.lock')
+after_lockfile = File.read('after_Gemfile.lock')
+
+GemsComparator.compare(before_lockfile, after_lockfile)
+#=> [{:name=>"rake", :before=>"11.3.0", :after=>"12.0.0", :homepage=>"https://github.com/ruby/rake", :github_url=>"https://github.com/ruby/rake", :compare_url=>"https://github.com/ruby/rake/compare/v11.3.0...v12.0.0"}, ...]
+```
 
 ## Development
 
@@ -32,7 +38,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/gems_comparator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sinsoku/gems_comparator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
