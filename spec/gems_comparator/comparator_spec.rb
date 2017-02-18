@@ -28,9 +28,6 @@ module GemsComparator
     let(:gems_comparator_tags) { [{ name: 'v0.1.0' }] }
 
     before do
-      fixtures_path = File.join(__dir__, '../fixtures')
-      allow(Bundler).to receive(:specs_path) { fixtures_path }
-
       stub_octokit(:get, '/repos/ruby/rake/tags')
         .to_return(body: JSON.dump(rake_tags))
       stub_octokit(:get, '/repos/rspec/rspec/tags')

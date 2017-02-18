@@ -8,8 +8,6 @@ module GemsComparator
       let(:url) { 'https://api.github.com/repos/sinsoku/gems_comparator/tags' }
 
       before do
-        fixtures_path = File.join(__dir__, '../fixtures')
-        allow(Bundler).to receive(:specs_path) { fixtures_path }
         stub_octokit(:get, '/repos/sinsoku/gems_comparator/tags')
           .to_return(status: 404)
       end
@@ -46,8 +44,6 @@ module GemsComparator
       before do
         stub_octokit(:get, '/repos/ruby/rake/tags')
           .to_return(body: JSON.dump(tags))
-        fixtures_path = File.join(__dir__, '../fixtures')
-        allow(Bundler).to receive(:specs_path) { fixtures_path }
       end
 
       subject { gem_info.to_h }
