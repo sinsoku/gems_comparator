@@ -32,7 +32,9 @@ module GemsComparator
     end
 
     def change_gems
-      names = before_gems.keys & after_gems.keys
+      names = before_gems.keys.select do |name|
+        before_gems[name] != after_gems[name]
+      end
       names.map { |name| new_geminfo(name) }
     end
 

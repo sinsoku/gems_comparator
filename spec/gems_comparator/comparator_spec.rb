@@ -10,6 +10,7 @@ module GemsComparator
         specs:
           rake (11.3.0)
           rspec (3.5.0)
+          webmock (2.3.2)
       EOF
     end
     let(:after_lockfile) do
@@ -19,6 +20,7 @@ module GemsComparator
         specs:
           gems_comparator (0.1.0)
           rake (12.0.0)
+          webmock (2.3.2)
       EOF
     end
     let(:rake_tags) { [{ name: 'v11.3.0' }, { name: 'v12.0.0' }] }
@@ -40,7 +42,7 @@ module GemsComparator
     describe '#compare' do
       subject { GemsComparator.compare(before_lockfile, after_lockfile) }
 
-      it 'should include ruby/rake' do
+      it 'should include an updated gem (ruby/rake)' do
         is_expected.to include(
           name: 'rake',
           before: '11.3.0',
@@ -51,7 +53,7 @@ module GemsComparator
         )
       end
 
-      it 'should include rspec/rspec' do
+      it 'should include a deleted gem (rspec/rspec)' do
         is_expected.to include(
           name: 'rspec',
           before: '3.5.0',
@@ -62,7 +64,7 @@ module GemsComparator
         )
       end
 
-      it 'should include sinsoku/gems_comparator' do
+      it 'should include an added gem (sinsoku/gems_comparator)' do
         is_expected.to include(
           name: 'gems_comparator',
           before: '',
@@ -71,6 +73,11 @@ module GemsComparator
           github_url: 'https://github.com/sinsoku/gems_comparator',
           compare_url: nil
         )
+      end
+
+      it 'should not include a no update gem (bblimke/webmock)' do
+        names = subject.map { |gem| gem[:name] }
+        expect(names).to_not include 'webmock'
       end
     end
   end
