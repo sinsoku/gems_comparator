@@ -1,5 +1,9 @@
 # GemsComparator
 
+[![Gem Version](https://badge.fury.io/rb/gems_comparator.svg)](https://badge.fury.io/rb/gems_comparator)
+[![Build Status](https://travis-ci.org/sinsoku/gems_comparator.svg?branch=master)](https://travis-ci.org/sinsoku/gems_comparator)
+[![codecov](https://codecov.io/gh/sinsoku/gems_comparator/branch/master/graph/badge.svg)](https://codecov.io/gh/sinsoku/gems_comparator)
+
 GemsComparator generates GitHub's compare view urls from `Gemfile.lock`
 
 ## Installation
