@@ -1,11 +1,15 @@
-require "spec_helper"
+# frozen_string_literal: true
+require 'spec_helper'
 
 describe GemsComparator do
-  it "has a version number" do
-    expect(GemsComparator::VERSION).not_to be nil
-  end
+  describe '.configure' do
+    let(:client) { Octokit::Client.new }
 
-  it "does something useful" do
-    expect(false).to eq(true)
+    it 'should change to custom client' do
+      GemsComparator.configure do |config|
+        config.client = client
+      end
+      expect(GemsComparator.config.client).to eq client
+    end
   end
 end

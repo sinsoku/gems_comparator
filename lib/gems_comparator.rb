@@ -1,5 +1,21 @@
-require "gems_comparator/version"
+# frozen_string_literal: true
+require 'octokit'
+require 'gems_comparator/comparator'
+require 'gems_comparator/config'
+require 'gems_comparator/gem_info'
+require 'gems_comparator/github_repository'
+require 'gems_comparator/version'
 
 module GemsComparator
-  # Your code goes here...
+  def self.config
+    @config ||= Config.new
+  end
+
+  def self.configure
+    yield config
+  end
+
+  def self.compare(before_lockfile, after_lockfile)
+    Comparator.new(before_lockfile, after_lockfile).compare
+  end
 end
