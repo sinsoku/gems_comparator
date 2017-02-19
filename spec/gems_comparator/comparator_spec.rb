@@ -56,8 +56,8 @@ module GemsComparator
           before: '3.5.0',
           after: '',
           homepage: 'http://github.com/rspec',
-          github_url: nil,
-          compare_url: nil
+          github_url: 'https://github.com/rspec/rspec',
+          compare_url: 'https://github.com/rspec/rspec/compare/v3.5.0...master'
         )
       end
 
