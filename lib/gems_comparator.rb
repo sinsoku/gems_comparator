@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+require 'bundler'
 require 'octokit'
+
 require 'gems_comparator/comparator'
 require 'gems_comparator/config'
 require 'gems_comparator/gem_info'
