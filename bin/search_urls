@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'gems_comparator'
+
+def github_urls
+  @github_urls ||= YAML.load_file(GemsComparator::GemInfo::GITHUB_URLS_PATH)
+end
+
+def github_url?(spec)
+  GemsComparator::GithubRepository.repo?(spec.homepage) ||
+    github_urls.key?(spec.name)
+end
+
+spec_paths = Dir["#{Bundler.specs_path}/**/*.gemspec"]
+specs = spec_paths.map { |path| Gem::Specification.load(path) }
+specs.reject { |spec| github_url?(spec) }.each do |spec|
+  puts "#{spec.name}: #{spec.homepage}"
+end
