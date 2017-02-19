@@ -4,7 +4,7 @@ module GemsComparator
     attr_accessor :client
 
     def initialize
-      @client = Octokit::Client.new
+      @client = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
     end
   end
 end
