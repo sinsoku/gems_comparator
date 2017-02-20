@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 module GemsComparator
   class Comparator
+    def self.convert(gems)
+      if defined?(Parallel)
+        Parallel.map(gems, &:to_h)
+      else
+        gems.map(&:to_h)
+      end
+    end
+
     def initialize(before_lockfile, after_lockfile)
       @before_lockfile = before_lockfile
       @after_lockfile = after_lockfile
@@ -8,7 +16,7 @@ module GemsComparator
 
     def compare
       gems = addition_gems + change_gems + deletion_gems
-      gems.sort_by(&:name).map(&:to_h)
+      Comparator.convert(gems.sort_by(&:name))
     end
 
     private

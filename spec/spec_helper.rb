@@ -10,6 +10,7 @@ end
 
 require 'gems_comparator'
 require 'webmock/rspec'
+require 'parallel'
 require File.join(__dir__, 'support/stub_octokit')
 
 RSpec.configure do |config|

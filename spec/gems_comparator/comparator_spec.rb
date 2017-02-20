@@ -3,40 +3,57 @@ require 'spec_helper'
 
 module GemsComparator
   describe Comparator do
-    let(:before_lockfile) do
-      <<~EOF
-      GEM
-        remote: https://rubygems.org/
-        specs:
-          rake (11.3.0)
-          rspec (3.5.0)
-          webmock (2.3.2)
-      EOF
-    end
-    let(:after_lockfile) do
-      <<~EOF
-      GEM
-        remote: https://rubygems.org/
-        specs:
-          gems_comparator (0.1.0)
-          rake (12.0.0)
-          webmock (2.3.2)
-      EOF
-    end
-    let(:rake_tags) { [{ name: 'v11.3.0' }, { name: 'v12.0.0' }] }
-    let(:rspec_tags) { [{ name: 'v3.5.0' }] }
-    let(:gems_comparator_tags) { [{ name: 'v0.1.0' }] }
+    describe '.convert' do
+      let(:gem_info) { GemInfo.new('parallel', '1.9.0', '1.10.0') }
 
-    before do
-      stub_octokit(:get, '/repos/ruby/rake/tags')
-        .to_return(body: JSON.dump(rake_tags))
-      stub_octokit(:get, '/repos/rspec/rspec/tags')
-        .to_return(body: JSON.dump(rspec_tags))
-      stub_octokit(:get, '/repos/sinsoku/gems_comparator/tags')
-        .to_return(body: JSON.dump(gems_comparator_tags))
+      context 'not using parallel' do
+        around do |example|
+          klass = Object.send(:remove_const, :Parallel)
+          example.run
+          Object.const_set(:Parallel, klass)
+        end
+        subject { Comparator.convert([gem_info]) }
+
+        it 'should convert gems' do
+          is_expected.to contain_exactly gem_info.to_h
+        end
+      end
     end
 
     describe '#compare' do
+      let(:before_lockfile) do
+        <<~EOF
+        GEM
+          remote: https://rubygems.org/
+          specs:
+            rake (11.3.0)
+            rspec (3.5.0)
+            webmock (2.3.2)
+        EOF
+      end
+      let(:after_lockfile) do
+        <<~EOF
+        GEM
+          remote: https://rubygems.org/
+          specs:
+            gems_comparator (0.1.0)
+            rake (12.0.0)
+            webmock (2.3.2)
+        EOF
+      end
+      let(:rake_tags) { [{ name: 'v11.3.0' }, { name: 'v12.0.0' }] }
+      let(:rspec_tags) { [{ name: 'v3.5.0' }] }
+      let(:gems_comparator_tags) { [{ name: 'v0.1.0' }] }
+
+      before do
+        stub_octokit(:get, '/repos/ruby/rake/tags')
+          .to_return(body: JSON.dump(rake_tags))
+        stub_octokit(:get, '/repos/rspec/rspec/tags')
+          .to_return(body: JSON.dump(rspec_tags))
+        stub_octokit(:get, '/repos/sinsoku/gems_comparator/tags')
+          .to_return(body: JSON.dump(gems_comparator_tags))
+      end
+
       subject { GemsComparator.compare(before_lockfile, after_lockfile) }
 
       it 'should include an updated gem (ruby/rake)' do
