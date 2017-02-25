@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/sinsoku/gems_comparator.svg?branch=master)](https://travis-ci.org/sinsoku/gems_comparator)
 [![codecov](https://codecov.io/gh/sinsoku/gems_comparator/branch/master/graph/badge.svg)](https://codecov.io/gh/sinsoku/gems_comparator)
 
-GemsComparator generates GitHub's compare view urls from `Gemfile.lock`
+GemsComparator generates GitHub's compare view urls from the difference between two `Gemfile.lock`.
 
 ## Installation
 
@@ -31,8 +31,32 @@ before_lockfile = File.read('before_Gemfile.lock')
 after_lockfile = File.read('after_Gemfile.lock')
 
 GemsComparator.compare(before_lockfile, after_lockfile)
-#=> [{:name=>"rake", :before=>"11.3.0", :after=>"12.0.0", :homepage=>"https://github.com/ruby/rake", :github_url=>"https://github.com/ruby/rake", :compare_url=>"https://github.com/ruby/rake/compare/v11.3.0...v12.0.0"}, ...]
+#=> [
+{
+  :name=>"rake",
+  :before=>"11.3.0",
+  :after=>"12.0.0",
+  :homepage=>"https://github.com/ruby/rake",
+  :github_url=>"https://github.com/ruby/rake",
+  :compare_url=>"https://github.com/ruby/rake/compare/v11.3.0...v12.0.0"
+}, {
+  ...
+}]
 ```
+
+## Configuring
+
+To use an access token, set your token to `ENV['GITHUB_TOKEN']`. Or you can also set a token through the `configure` method.
+
+```
+GemsComparator.configure do |config|
+  config.client = Octokit::Client.new(access_token: '<your 40 char token>')
+end
+```
+
+## Parallel Support
+
+If you are using a [parallel](https://github.com/grosser/parallel) gem, GemsComparator automatically works as parallel processing.
 
 ## Development
 
