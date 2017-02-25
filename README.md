@@ -31,8 +31,12 @@ before_lockfile = File.read('before_Gemfile.lock')
 after_lockfile = File.read('after_Gemfile.lock')
 
 GemsComparator.compare(before_lockfile, after_lockfile)
-#=> [
-{
+```
+
+Here's an example that the `compare` method return:
+
+```rb
+[{
   :name=>"rake",
   :before=>"11.3.0",
   :after=>"12.0.0",
