@@ -52,7 +52,7 @@ Here's an example that the `compare` method return:
 
 To use an access token, set your token to `ENV['GITHUB_TOKEN']`. Or you can also set a token through the `configure` method.
 
-```
+```rb
 GemsComparator.configure do |config|
   config.client = Octokit::Client.new(access_token: '<your 40 char token>')
 end
