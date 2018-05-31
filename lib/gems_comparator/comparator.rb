@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module GemsComparator
   class Comparator
     def self.convert(gems)
@@ -40,8 +41,8 @@ module GemsComparator
     end
 
     def change_gems
-      names = before_gems.keys.select do |name|
-        before_gems[name] != after_gems[name]
+      names = before_gems.keys.reject do |name|
+        before_gems[name] == after_gems[name]
       end
       names.map { |name| new_geminfo(name) }
     end

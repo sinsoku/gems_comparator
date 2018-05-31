@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 module GemsComparator
   class GithubRepository
     def self.repo?(url)
       Octokit::Repository.from_url(url)
       true
-    rescue
+    rescue StandardError
       false
     end
 

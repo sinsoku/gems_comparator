@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'data/github_urls.yml' do
@@ -10,7 +11,7 @@ describe 'data/github_urls.yml' do
 
   it 'should only inclue repo names' do
     yaml.values.each do |full_name|
-      expect(full_name).to match(/[\w-]+\/[\w-]+/)
+      expect(full_name).to match(%r{[\w-]+/[\w-]+})
     end
   end
 end

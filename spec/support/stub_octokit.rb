@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module StubOctokit
   class Request
     HEADERS = { 'Content-Type' => 'application/json' }.freeze

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module GemsComparator
   class Config
     attr_accessor :client

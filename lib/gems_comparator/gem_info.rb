@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'yaml'
 
 module GemsComparator
@@ -18,7 +19,7 @@ module GemsComparator
 
       repo = GithubRepository.new(github_url)
       repo.compare(before, after)
-    rescue => e
+    rescue StandardError => e
       e.inspect
     end
 
@@ -35,7 +36,7 @@ module GemsComparator
     end
 
     def to_h
-      attr_names = %i(name before after homepage github_url compare_url)
+      attr_names = %i[name before after homepage github_url compare_url]
       attr_names.map { |m| [m, send(m)] }.to_h
     end
 

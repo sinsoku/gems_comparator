@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 
 module GemsComparator
@@ -22,24 +23,24 @@ module GemsComparator
 
     describe '#compare' do
       let(:before_lockfile) do
-        <<~EOF
-        GEM
-          remote: https://rubygems.org/
-          specs:
-            rake (11.3.0)
-            rspec (3.5.0)
-            webmock (2.3.2)
-        EOF
+        <<~LOCKFILE
+          GEM
+            remote: https://rubygems.org/
+            specs:
+              rake (11.3.0)
+              rspec (3.5.0)
+              webmock (2.3.2)
+        LOCKFILE
       end
       let(:after_lockfile) do
-        <<~EOF
-        GEM
-          remote: https://rubygems.org/
-          specs:
-            gems_comparator (0.1.0)
-            rake (12.0.0)
-            webmock (2.3.2)
-        EOF
+        <<~LOCKFILE
+          GEM
+            remote: https://rubygems.org/
+            specs:
+              gems_comparator (0.1.0)
+              rake (12.0.0)
+              webmock (2.3.2)
+        LOCKFILE
       end
       let(:rake_tags) { [{ name: 'v11.3.0' }, { name: 'v12.0.0' }] }
       let(:rspec_tags) { [{ name: 'v3.5.0' }] }
