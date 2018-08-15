@@ -26,6 +26,8 @@ module GemsComparator
     def github_url
       if GithubRepository.repo?(homepage)
         homepage
+      elsif GithubRepository.repo?(source_code_uri)
+        source_code_uri
       elsif github_urls.key?(name)
         "https://github.com/#{github_urls[name]}"
       end
@@ -56,6 +58,10 @@ module GemsComparator
         "#{Bundler.specs_path}/#{name}-#{after}.gemspec"
       ]
       spec_paths.find { |path| File.exist?(path) }
+    end
+
+    def source_code_uri
+      spec&.metadata&.fetch('source_code_uri', nil)
     end
   end
 end
