@@ -24,13 +24,8 @@ module GemsComparator
     end
 
     def github_url
-      if GithubRepository.repo?(homepage)
-        homepage
-      elsif GithubRepository.repo?(source_code_uri)
-        source_code_uri
-      elsif github_urls.key?(name)
-        "https://github.com/#{github_urls[name]}"
-      end
+      urls = [homepage, source_code_uri, github_url_from_yaml].compact
+      urls.find { |url| GithubRepository.repo?(url) }
     end
 
     def homepage
@@ -44,8 +39,12 @@ module GemsComparator
 
     private
 
-    def github_urls
-      @github_urls ||= YAML.load_file(GITHUB_URLS_PATH)
+    def github_slugs
+      @github_slugs ||= YAML.load_file(GITHUB_URLS_PATH)
+    end
+
+    def github_url_from_yaml
+      "https://github.com/#{github_slugs[name]}" if github_slugs.key?(name)
     end
 
     def spec
