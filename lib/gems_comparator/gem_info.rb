@@ -63,8 +63,8 @@ module GemsComparator
 
     def spec_path
       spec_paths = [
-        "#{Bundler.specs_path}/#{name}-#{before}.gemspec",
-        "#{Bundler.specs_path}/#{name}-#{after}.gemspec"
+        "#{Bundler.specs_path}/#{name}-#{after}.gemspec",
+        "#{Bundler.specs_path}/#{name}-#{before}.gemspec"
       ]
       spec_paths.find { |path| File.exist?(path) }
     end
