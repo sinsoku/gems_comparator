@@ -3,7 +3,7 @@
 module GemsComparator
   class GithubRepository
     def self.repo?(url)
-      return false unless url.include?(Octokit.web_endpoint)
+      return false unless url.include?('github.com')
 
       Octokit::Repository.from_url(url)
       true
