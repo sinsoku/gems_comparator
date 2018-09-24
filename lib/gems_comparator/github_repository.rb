@@ -3,6 +3,8 @@
 module GemsComparator
   class GithubRepository
     def self.repo?(url)
+      return false unless url.include?(Octokit.web_endpoint)
+
       Octokit::Repository.from_url(url)
       true
     rescue StandardError

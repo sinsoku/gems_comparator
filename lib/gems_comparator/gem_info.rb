@@ -42,6 +42,8 @@ module GemsComparator
     private
 
     def normalized_github_url(url)
+      return unless url.include?(Octokit.web_endpoint)
+
       Octokit::Repository.from_url(url).url
     rescue URI::InvalidURIError, Octokit::InvalidRepository, NoMethodError
       nil
