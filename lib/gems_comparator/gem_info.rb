@@ -24,10 +24,8 @@ module GemsComparator
     end
 
     def github_url
-      [homepage, source_code_uri, github_url_from_yaml].each do |url|
-        normalized = normalized_github_url(url)
-        break normalized if normalized
-      end
+      urls = [homepage, source_code_uri, github_url_from_yaml]
+      urls.map(&method(:normalized_github_url)).compact.first
     end
 
     def homepage
