@@ -24,10 +24,9 @@ module GemsComparator
     end
 
     def github_url
-      if GithubRepository.repo?(homepage)
-        homepage
-      elsif github_urls.key?(name)
-        "https://github.com/#{github_urls[name]}"
+      [homepage, source_code_uri, github_url_from_yaml].each do |url|
+        normalized = normalized_github_url(url)
+        break normalized if normalized
       end
     end
 
@@ -42,8 +41,18 @@ module GemsComparator
 
     private
 
-    def github_urls
-      @github_urls ||= YAML.load_file(GITHUB_URLS_PATH)
+    def normalized_github_url(url)
+      Octokit::Repository.from_url(url).url
+    rescue URI::InvalidURIError, Octokit::InvalidRepository, NoMethodError
+      nil
+    end
+
+    def github_slugs
+      @github_slugs ||= YAML.load_file(GITHUB_URLS_PATH)
+    end
+
+    def github_url_from_yaml
+      "https://github.com/#{github_slugs[name]}" if github_slugs.key?(name)
     end
 
     def spec
@@ -56,6 +65,10 @@ module GemsComparator
         "#{Bundler.specs_path}/#{name}-#{after}.gemspec"
       ]
       spec_paths.find { |path| File.exist?(path) }
+    end
+
+    def source_code_uri
+      spec&.metadata&.fetch('source_code_uri', nil)
     end
   end
 end

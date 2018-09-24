@@ -22,9 +22,18 @@ module GemsComparator
     end
 
     describe '#github_url' do
-      let(:gem_info) { GemInfo.new('action_args', '0.1.0', '0.2.0') }
+      context "when homepage isn't GitHub url and source_code_uri is it" do
+        let(:gem_info) { GemInfo.new('activerecord', '5.2.0', '5.2.1') }
 
-      context "when homepage isn't GitHub url" do
+        it 'should return source_code_uri' do
+          expected = 'https://github.com/rails/rails'
+          expect(gem_info.github_url).to eq expected
+        end
+      end
+
+      context "when homepage and source_code_uri aren't GitHub url" do
+        let(:gem_info) { GemInfo.new('action_args', '0.1.0', '0.2.0') }
+
         it 'should return url from github_urls.yml' do
           homepage = 'http://asakusa.rubyist.net/'
           allow(gem_info).to receive(:homepage) { homepage }
