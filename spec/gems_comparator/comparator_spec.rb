@@ -69,6 +69,9 @@ module GemsComparator
       end
 
       it 'should include a deleted gem (rspec/rspec)' do
+        deleted_gem_count = subject.count { |gem| gem[:name] == 'rspec' }
+
+        expect(deleted_gem_count).to eq 1
         is_expected.to include(
           name: 'rspec',
           before: '3.5.0',

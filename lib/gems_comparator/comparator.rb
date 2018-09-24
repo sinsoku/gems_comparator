@@ -16,7 +16,7 @@ module GemsComparator
     end
 
     def compare
-      gems = addition_gems + change_gems + deletion_gems
+      gems = addition_gems + change_gems
       Comparator.convert(gems.sort_by(&:name))
     end
 
@@ -44,11 +44,6 @@ module GemsComparator
       names = before_gems.keys.reject do |name|
         before_gems[name] == after_gems[name]
       end
-      names.map { |name| new_geminfo(name) }
-    end
-
-    def deletion_gems
-      names = before_gems.keys - after_gems.keys
       names.map { |name| new_geminfo(name) }
     end
 
