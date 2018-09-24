@@ -24,8 +24,10 @@ module GemsComparator
     end
 
     def github_url
-      urls = [homepage, source_code_uri, github_url_from_yaml].compact
-      urls.find { |url| GithubRepository.repo?(url) }
+      [homepage, source_code_uri, github_url_from_yaml].each do |url|
+        normalized = normalized_github_url(url)
+        break normalized if normalized
+      end
     end
 
     def homepage
@@ -38,6 +40,12 @@ module GemsComparator
     end
 
     private
+
+    def normalized_github_url(url)
+      Octokit::Repository.from_url(url).url
+    rescue URI::InvalidURIError, Octokit::InvalidRepository, NoMethodError
+      nil
+    end
 
     def github_slugs
       @github_slugs ||= YAML.load_file(GITHUB_URLS_PATH)

@@ -26,7 +26,7 @@ module GemsComparator
         let(:gem_info) { GemInfo.new('activerecord', '5.2.0', '5.2.1') }
 
         it 'should return source_code_uri' do
-          expected = 'https://github.com/rails/rails/tree/v5.2.0/activerecord'
+          expected = 'https://github.com/rails/rails'
           expect(gem_info.github_url).to eq expected
         end
       end
