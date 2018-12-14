@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'gems_comparator/version'
+require_relative 'lib/gems_comparator/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'gems_comparator'
@@ -10,15 +8,13 @@ Gem::Specification.new do |spec|
   spec.authors       = ['sinsoku']
   spec.email         = ['sinsoku.listy@gmail.com']
 
-  spec.summary       = "A comparator for Gemfile.lock that generate the GitHub's compare view urls"
-  spec.description   = "A comparator for Gemfile.lock that generate the GitHub's compare view urls"
+  spec.summary = spec.description = "A comparator for Gemfile.lock that generate the GitHub's compare view urls"
   spec.homepage      = 'https://github.com/sinsoku/gems_comparator'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  spec.require_paths = ['lib']
 
   spec.add_dependency 'octokit'
 
