@@ -2,6 +2,8 @@
 
 require 'spec_helper'
 
+SingleCov.covered!
+
 module GemsComparator
   describe Comparator do
     describe '.convert' do

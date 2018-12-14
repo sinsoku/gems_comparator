@@ -2,18 +2,25 @@
 
 require 'spec_helper'
 
+SingleCov.covered!
+
 module GemsComparator
   describe GemInfo do
     describe '#compare_url' do
       let(:gem_info) { GemInfo.new('gems_comparator', '0.1.0', '0.2.0') }
       let(:url) { 'https://api.github.com/repos/sinsoku/gems_comparator/tags' }
 
-      before do
-        stub_octokit(:get, '/repos/sinsoku/gems_comparator/tags')
-          .to_return(status: 404)
+      it 'shows nothing when url is not set' do
+        gem_info = GemInfo.new('foo', '0.1.0', '0.2.0')
+        expect(gem_info.compare_url).to eq nil
       end
 
       context 'when an error occurs' do
+        before do
+          stub_octokit(:get, '/repos/sinsoku/gems_comparator/tags')
+            .to_return(status: 404)
+        end
+
         it do
           error_message = "#<Octokit::NotFound: GET #{url}: 404 - >"
           expect(gem_info.compare_url).to eq error_message

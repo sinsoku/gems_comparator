@@ -2,7 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/gems_comparator.svg)](https://badge.fury.io/rb/gems_comparator)
 [![Build Status](https://travis-ci.org/sinsoku/gems_comparator.svg?branch=master)](https://travis-ci.org/sinsoku/gems_comparator)
-[![codecov](https://codecov.io/gh/sinsoku/gems_comparator/branch/master/graph/badge.svg)](https://codecov.io/gh/sinsoku/gems_comparator)
+![Coverage](https://img.shields.io/badge/Coverage-100%25-green.svg)
 
 GemsComparator generates GitHub's compare view urls from the difference between two `Gemfile.lock`.
 
