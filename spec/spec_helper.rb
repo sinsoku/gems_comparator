@@ -9,7 +9,6 @@ end
 
 require 'gems_comparator'
 require 'webmock/rspec'
-require 'parallel'
 require_relative 'support/stub_octokit'
 
 RSpec.configure do |config|
