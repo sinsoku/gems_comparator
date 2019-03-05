@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
-
 require 'simplecov'
 SimpleCov.start
 if ENV['CI'] == 'true'
@@ -12,7 +10,7 @@ end
 require 'gems_comparator'
 require 'webmock/rspec'
 require 'parallel'
-require File.join(__dir__, 'support/stub_octokit')
+require_relative 'support/stub_octokit'
 
 RSpec.configure do |config|
   config.before do
