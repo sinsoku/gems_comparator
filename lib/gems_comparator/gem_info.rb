@@ -24,7 +24,7 @@ module GemsComparator
     end
 
     def github_url
-      urls = [homepage, source_code_uri, github_url_from_yaml]
+      urls = [source_code_uri, homepage, github_url_from_yaml]
       urls.map(&method(:normalized_github_url)).compact.first
     end
 

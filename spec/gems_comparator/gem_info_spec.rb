@@ -42,6 +42,15 @@ module GemsComparator
           expect(gem_info.github_url).to eq expected
         end
       end
+
+      context 'when homepage and source_code_uri are not same GitHub url' do
+        let(:gem_info) { GemInfo.new('turbolinks', '5.2.0', '5.2.1') }
+
+        it 'should return source_code_uri' do
+          expected = 'https://github.com/turbolinks/turbolinks-rails'
+          expect(gem_info.github_url).to eq expected
+        end
+      end
     end
 
     describe '#to_h' do
