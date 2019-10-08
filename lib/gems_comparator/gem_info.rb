@@ -24,7 +24,9 @@ module GemsComparator
     end
 
     def github_url
-      @github_url ||= [
+      return @github_url if instance_variable_defined?(:@github_url)
+
+      @github_url = [
         source_code_uri,
         homepage,
         github_url_from_yaml
