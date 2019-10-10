@@ -3,12 +3,36 @@
 module GemsComparator
   class Comparator
     def self.convert(gems)
-      if defined?(Parallel)
-        Parallel.map(gems, &:to_h)
-      else
-        gems.map(&:to_h)
-      end
+      parallel_map(gems, &:to_h)
     end
+
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
+    private_class_method def self.parallel_map(items, max: 10)
+      threads = [items.size, max].min
+      work = items.each_with_index.to_a
+      done = Array.new(items.size)
+      workers = Array.new(threads).map do
+        Thread.new do
+          loop do
+            item, i = work.pop
+            break unless i
+
+            done[i] =
+              begin
+                yield item
+              rescue StandardError => e
+                work.clear
+                e
+              end
+          end
+        end
+      end
+      workers.each(&:join)
+      done.each { |d| raise d if d.is_a?(StandardError) }
+    end
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
 
     def initialize(before_lockfile, after_lockfile)
       @before_lockfile = before_lockfile

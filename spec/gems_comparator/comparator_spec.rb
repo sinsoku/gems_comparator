@@ -4,23 +4,6 @@ require 'spec_helper'
 
 module GemsComparator
   describe Comparator do
-    describe '.convert' do
-      let(:gem_info) { GemInfo.new('parallel', '1.9.0', '1.10.0') }
-
-      context 'not using parallel' do
-        around do |example|
-          klass = Object.send(:remove_const, :Parallel)
-          example.run
-          Object.const_set(:Parallel, klass)
-        end
-        subject { Comparator.convert([gem_info]) }
-
-        it 'should convert gems' do
-          is_expected.to contain_exactly gem_info.to_h
-        end
-      end
-    end
-
     describe '#compare' do
       let(:before_lockfile) do
         <<~LOCKFILE
