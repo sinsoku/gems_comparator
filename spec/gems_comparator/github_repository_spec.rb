@@ -61,6 +61,17 @@ module GemsComparator
         subject { repo.compare('0.1.0', '0.2.0') }
         it { is_expected.to eq "#{url}/compare/version-0.1.0...version-0.2.0" }
       end
+
+      context 'when the tag name is 4 digits versioning like as Rails' do
+        let(:tags) { [{ name: 'v7.0.2.1' }, { name: 'v7.0.2' }] }
+
+        before do
+          stub_octokit(:get, '/repos/sinsoku/gems_comparator/tags')
+            .to_return(body: JSON.dump(tags))
+        end
+        subject { repo.compare('7.0.2', '7.0.2.1') }
+        it { is_expected.to eq "#{url}/compare/v7.0.2...v7.0.2.1" }
+      end
     end
   end
 end

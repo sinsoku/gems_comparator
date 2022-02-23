@@ -35,7 +35,7 @@ module GemsComparator
     def find_tag(name)
       return if name.empty?
 
-      tag_names.find { |tag_name| tag_name.include?(name) }
+      tag_names.find { |tag_name| tag_name.end_with?(name) }
     end
 
     def client
